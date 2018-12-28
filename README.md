@@ -59,32 +59,32 @@ module "es_alarms" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| alarm_name_postfix | Alarm name postfix | string | `""` | no |
-| alarm_name_prefix | Alarm name prefix | string | `""` | no |
-| cpu_utilization_threshold | The maximum percentage of CPU utilization | string | `80` | no |
-| domain_name | The Elasticserach domain name you want to monitor. | string | - | yes |
-| free_storage_space_threshold | The minimum amount of available storage space in Byte. | string | `21474836480` | no |
-| jvm_memory_pressure_threshold | The maximum percentage of the Java heap used for all data nodes in the cluster | string | `80` | no |
-| master_cpu_utilization_threshold | The maximum percentage of CPU utilization of master nodes | string | `""` | no |
-| master_jvm_memory_pressure_threshold | The maximum percentage of the Java heap used for master nodes in the cluster | string | `""` | no |
-| min_available_nodes | The minimum available (reachable) nodes to have | string | `1` | no |
-| monitor_automated_snapshot_failure | Enable monitoring of automated snapshot failure | string | `true` | no |
-| monitor_cluster_index_writes_blocked | Enable monitoring of cluster index writes being blocked | string | `true` | no |
-| monitor_cluster_status_is_red | Enable monitoring of cluster status is in red | string | `true` | no |
-| monitor_cluster_status_is_yellow | Enable monitoring of cluster status is in yellow | string | `true` | no |
-| monitor_cpu_utilization_too_high | Enable monitoring of CPU utilization is too high | string | `true` | no |
-| monitor_free_storage_space_too_low | Enable monitoring of cluster average free storage is to low | string | `true` | no |
-| monitor_insufficient_available_nodes | Enable monitoring insufficient available nodes | string | `false` | no |
-| monitor_jvm_memory_pressure_too_high | Enable monitoring of JVM memory pressure is too high | string | `true` | no |
-| monitor_master_cpu_utilization_too_high | Enable monitoring of CPU utilization of master nodes are too high. Only enable this when dedicated master is enabled | string | `false` | no |
-| monitor_master_jvm_memory_pressure_too_high | Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled | string | `false` | no |
-| sns_topic | SNS topic you want to specify. If leave empty, it will use a prefix and a timestampe appended | string | `""` | no |
+| `domain_name` | The Elasticserach domain name you want to monitor. | string | - | yes |
+| `alarm_name_postfix` | Alarm name postfix | string | `""` | no |
+| `alarm_name_prefix` | Alarm name prefix | string | `""` | no |
+| `cpu_utilization_threshold` | The maximum percentage of CPU utilization | string | `80` | no |
+| `free_storage_space_threshold` | The minimum amount of available storage space in Byte. | string | `21474836480` | no |
+| `jvm_memory_pressure_threshold` | The maximum percentage of the Java heap used for all data nodes in the cluster | string | `80` | no |
+| `master_cpu_utilization_threshold` | The maximum percentage of CPU utilization of master nodes | string | `""` | no |
+| `master_jvm_memory_pressure_threshold` | The maximum percentage of the Java heap used for master nodes in the cluster | string | `""` | no |
+| `min_available_nodes` | The minimum available (reachable) nodes to have | string | `1` | no |
+| `monitor_automated_snapshot_failure` | Enable monitoring of automated snapshot failure | string | `true` | no |
+| `monitor_cluster_index_writes_blocked` | Enable monitoring of cluster index writes being blocked | string | `true` | no |
+| `monitor_cluster_status_is_red` | Enable monitoring of cluster status is in red | string | `true` | no |
+| `monitor_cluster_status_is_yellow` | Enable monitoring of cluster status is in yellow | string | `true` | no |
+| `monitor_cpu_utilization_too_high` | Enable monitoring of CPU utilization is too high | string | `true` | no |
+| `monitor_free_storage_space_too_low` | Enable monitoring of cluster average free storage is to low | string | `true` | no |
+| `monitor_insufficient_available_nodes` | Enable monitoring insufficient available nodes | string | `false` | no |
+| `monitor_jvm_memory_pressure_too_high` | Enable monitoring of JVM memory pressure is too high | string | `true` | no |
+| `monitor_master_cpu_utilization_too_high` | Enable monitoring of CPU utilization of master nodes are too high. Only enable this when dedicated master is enabled | string | `false` | no |
+| `monitor_master_jvm_memory_pressure_too_high` | Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled | string | `false` | no |
+| `sns_topic` | SNS topic you want to specify. If leave empty, it will use a prefix and a timestampe appended | string | `""` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| sns_topic_arn | The ARN of the SNS topic |
+| `sns_topic_arn` | The ARN of the SNS topic |
 
 ## Share the Love
 
