@@ -82,11 +82,11 @@ variable "monitor_master_jvm_memory_pressure_too_high" {
 }
 
 variable "free_storage_space_threshold" {
-  description = "The minimum amount of available storage space in Byte."
+  description = "The minimum amount of available storage space in MegaByte."
   type        = "string"
-  default     = 21474836480
+  default     = 20480
 
-  # 20 Gigabyte in Byte
+  # 20 Gigabyte in MegaByte
 }
 
 variable "min_available_nodes" {
