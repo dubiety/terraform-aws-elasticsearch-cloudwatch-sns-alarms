@@ -84,7 +84,8 @@ module "es_alarms" {
 
 | Name | Description |
 |------|-------------|
-| `sns_topic_arn` | The ARN of the SNS topic |
+| `sns_topic_arn`  | The ARN of the SNS topic |
+| `sns_topic_name` | The SNS topic name |
 
 ## Share the Love
 
