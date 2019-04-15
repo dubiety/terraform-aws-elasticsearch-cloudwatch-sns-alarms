@@ -17,11 +17,12 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_red" {
   metric_name         = "ClusterStatus.red"
   namespace           = "AWS/ES"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Average elasticsearch cluster status is in red over last 5 minutes"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
+  treat_missing_data  = "ignore"
 
   dimensions {
     DomainName = "${var.domain_name}"
@@ -37,11 +38,12 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_yellow" {
   metric_name         = "ClusterStatus.yellow"
   namespace           = "AWS/ES"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Average elasticsearch cluster status is in yellow over last 5 minutes"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
+  treat_missing_data  = "ignore"
 
   dimensions {
     DomainName = "${var.domain_name}"
@@ -57,11 +59,12 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
   metric_name         = "FreeStorageSpace"
   namespace           = "AWS/ES"
   period              = "60"
-  statistic           = "Average"
+  statistic           = "Minimum"
   threshold           = "${local.thresholds["FreeStorageSpaceThreshold"]}"
   alarm_description   = "Average elasticsearch free storage space over last 1 minutes is too low"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
+  treat_missing_data  = "ignore"
 
   dimensions {
     DomainName = "${var.domain_name}"
@@ -77,11 +80,12 @@ resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
   metric_name         = "ClusterIndexWritesBlocked"
   namespace           = "AWS/ES"
   period              = "300"
-  statistic           = "Average"
+  statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Elasticsearch index writes being blocker over last 10 minutes"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
+  treat_missing_data  = "ignore"
 
   dimensions {
     DomainName = "${var.domain_name}"
@@ -102,6 +106,7 @@ resource "aws_cloudwatch_metric_alarm" "insufficient_available_nodes" {
   alarm_description   = "Elasticsearch nodes minimum < ${local.thresholds["MinimumAvailableNodes"]} for 1 day"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
+  treat_missing_data  = "ignore"
 
   dimensions {
     DomainName = "${var.domain_name}"
@@ -122,6 +127,7 @@ resource "aws_cloudwatch_metric_alarm" "automated_snapshot_failure" {
   alarm_description   = "Elasticsearch automated snapshot failed over last 10 minutes"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
+  treat_missing_data  = "ignore"
 
   dimensions {
     DomainName = "${var.domain_name}"
