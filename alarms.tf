@@ -55,13 +55,14 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
   count               = "${var.monitor_free_storage_space_too_low}"
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-FreeStorageSpaceTooLow${var.alarm_name_postfix}"
   comparison_operator = "LessThanOrEqualToThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = "3"
+  datapoints_to_alarm = "3"
   metric_name         = "FreeStorageSpace"
   namespace           = "AWS/ES"
-  period              = "60"
+  period              = "300"
   statistic           = "Minimum"
   threshold           = "${local.thresholds["FreeStorageSpaceThreshold"]}"
-  alarm_description   = "Average elasticsearch free storage space over last 1 minutes is too low"
+  alarm_description   = "Average elasticsearch free storage space over last 15 minutes is too low"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
   treat_missing_data  = "ignore"
@@ -76,13 +77,14 @@ resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
   count               = "${var.monitor_cluster_index_writes_blocked}"
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-ClusterIndexWritesBlocked${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = "3"
+  datapoints_to_alarm = "3"
   metric_name         = "ClusterIndexWritesBlocked"
   namespace           = "AWS/ES"
-  period              = "300"
+  period              = "600"
   statistic           = "Maximum"
   threshold           = "1"
-  alarm_description   = "Elasticsearch index writes being blocker over last 10 minutes"
+  alarm_description   = "Elasticsearch index writes being blocker over last 30 minutes"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
   treat_missing_data  = "ignore"
@@ -119,6 +121,7 @@ resource "aws_cloudwatch_metric_alarm" "automated_snapshot_failure" {
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-AutomatedSnapshotFailure${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
+  datapoints_to_alarm = "1"
   metric_name         = "AutomatedSnapshotFailure"
   namespace           = "AWS/ES"
   period              = "600"
@@ -140,12 +143,13 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization_too_high" {
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-CPUUtilizationTooHigh${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "3"
+  datapoints_to_alarm = "3"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ES"
-  period              = "900"
+  period              = "600"
   statistic           = "Average"
   threshold           = "${local.thresholds["CPUUtilizationThreshold"]}"
-  alarm_description   = "Average elasticsearch cluster CPU utilization over last 10 minutes too high"
+  alarm_description   = "Average elasticsearch cluster CPU utilization over last 30 minutes too high"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
 
@@ -159,13 +163,14 @@ resource "aws_cloudwatch_metric_alarm" "jvm_memory_pressure_too_high" {
   count               = "${var.monitor_jvm_memory_pressure_too_high}"
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-JVMMemoryPressure${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = "2"
+  datapoints_to_alarm = "2"
   metric_name         = "JVMMemoryPressure"
   namespace           = "AWS/ES"
   period              = "900"
   statistic           = "Maximum"
   threshold           = "${local.thresholds["JVMMemoryPressureThreshold"]}"
-  alarm_description   = "Elasticsearch JVM memory pressure is too high over last 10 minutes"
+  alarm_description   = "Elasticsearch JVM memory pressure is too high over last 30 minutes"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
 
@@ -180,12 +185,13 @@ resource "aws_cloudwatch_metric_alarm" "master_cpu_utilization_too_high" {
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-MasterCPUUtilizationTooHigh${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "3"
+  datapoints_to_alarm = "3"
   metric_name         = "MasterCPUUtilization"
   namespace           = "AWS/ES"
-  period              = "900"
+  period              = "600"
   statistic           = "Average"
   threshold           = "${local.thresholds["MasterCPUUtilizationThreshold"]}"
-  alarm_description   = "Average elasticsearch cluster CPU utilization over last 10 minutes too high"
+  alarm_description   = "Average elasticsearch cluster CPU utilization over last 30 minutes too high"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
 
@@ -199,13 +205,14 @@ resource "aws_cloudwatch_metric_alarm" "master_jvm_memory_pressure_too_high" {
   count               = "${var.monitor_master_jvm_memory_pressure_too_high}"
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-JVMMemoryPressure${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = "2"
+  datapoints_to_alarm = "2"
   metric_name         = "MasterJVMMemoryPressure"
   namespace           = "AWS/ES"
-  period              = "900"
+  period              = "600"
   statistic           = "Maximum"
   threshold           = "${local.thresholds["MasterJVMMemoryPressureThreshold"]}"
-  alarm_description   = "Elasticsearch JVM memory pressure is too high over last 10 minutes"
+  alarm_description   = "Elasticsearch JVM memory pressure is too high over last 20 minutes"
   alarm_actions       = ["${local.aws_sns_topic_arn}"]
   ok_actions          = ["${local.aws_sns_topic_arn}"]
 
