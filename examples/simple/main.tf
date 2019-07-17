@@ -4,7 +4,7 @@ variable "region" {
 }
 
 provider "aws" {
-  region = "${var.region}"
+  region = var.region
 
   # Make it faster by skipping something
   skip_get_ec2_platforms      = true
@@ -22,5 +22,5 @@ module "es_alarms" {
 }
 
 output "es_alarms_sns_topic_arn" {
-  value = "${module.es_alarms.sns_topic_arn}"
+  value = module.es_alarms.sns_topic_arn
 }
