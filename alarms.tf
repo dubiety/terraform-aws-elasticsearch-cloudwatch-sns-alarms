@@ -24,7 +24,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_red" {
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -45,7 +45,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_yellow" {
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -66,7 +66,7 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -87,7 +87,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -108,7 +108,7 @@ resource "aws_cloudwatch_metric_alarm" "insufficient_available_nodes" {
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -129,7 +129,7 @@ resource "aws_cloudwatch_metric_alarm" "automated_snapshot_failure" {
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -149,7 +149,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization_too_high" {
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -169,7 +169,7 @@ resource "aws_cloudwatch_metric_alarm" "jvm_memory_pressure_too_high" {
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -189,7 +189,7 @@ resource "aws_cloudwatch_metric_alarm" "master_cpu_utilization_too_high" {
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
@@ -209,7 +209,7 @@ resource "aws_cloudwatch_metric_alarm" "master_jvm_memory_pressure_too_high" {
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
 
-  dimensions {
+  dimensions = {
     DomainName = var.domain_name
     ClientId   = data.aws_caller_identity.default.account_id
   }
