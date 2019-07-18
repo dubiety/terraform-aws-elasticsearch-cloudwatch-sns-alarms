@@ -5,4 +5,4 @@ TERRAFORM_VERSION ?= 0.12.4
 
 ## Lint terraform code
 lint:
-	$(SELF) terraform/install terraform/get-modules terraform/get-plugins terraform/lint terraform/validate
+	$(SELF) terraform/install terraform/get-modules terraform/get-plugins terraform/lint
