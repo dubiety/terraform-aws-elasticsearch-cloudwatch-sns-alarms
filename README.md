@@ -7,6 +7,8 @@ Terraform module that configures important elasticsearch alerts using CloudWatch
 
 Create a set of sane Elasticsearch CloudWatch alerts for monitoring the health of an elasticsearch cluster.
 
+`v1.0.0` supports terraform `v0.12` syntax!
+
 This project is inspired by [CloudPosse](https://github.com/cloudposse)
 
 It's 100% Open Source and licensed under the [APACHE2](LICENSE).
