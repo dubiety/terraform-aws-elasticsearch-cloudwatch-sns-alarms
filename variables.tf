@@ -1,23 +1,23 @@
 variable "domain_name" {
   description = "The Elasticserach domain name you want to monitor."
-  type        = "string"
+  type        = string
 }
 
 variable "sns_topic" {
   description = "SNS topic you want to specify. If leave empty, it will use a prefix and a timestampe appended"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
 variable "alarm_name_prefix" {
   description = "Alarm name prefix"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
 variable "alarm_name_postfix" {
   description = "Alarm name postfix"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
