@@ -20,11 +20,9 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_red" {
   statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Average elasticsearch cluster status is in red over last 1 minutes"
-  alarm_actions = [
-  local.aws_sns_topic_arn]
-  ok_actions = [
-  local.aws_sns_topic_arn]
-  treat_missing_data = "ignore"
+  alarm_actions       = [local.aws_sns_topic_arn]
+  ok_actions          = [local.aws_sns_topic_arn]
+  treat_missing_data  = "ignore"
 
   dimensions = {
     DomainName = var.domain_name
