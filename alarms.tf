@@ -197,7 +197,7 @@ resource "aws_cloudwatch_metric_alarm" "master_cpu_utilization_too_high" {
 
 resource "aws_cloudwatch_metric_alarm" "master_jvm_memory_pressure_too_high" {
   count               = var.monitor_master_jvm_memory_pressure_too_high ? 1 : 0
-  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-JVMMemoryPressure${var.alarm_name_postfix}"
+  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-MasterJVMMemoryPressure${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "MasterJVMMemoryPressure"
