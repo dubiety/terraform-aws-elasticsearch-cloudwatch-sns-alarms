@@ -21,6 +21,18 @@ variable "alarm_name_postfix" {
   default     = ""
 }
 
+variable "sns_topic_prefix" {
+  description = "SNS topic prefix"
+  type        = string
+  default     = ""
+}
+
+variable "sns_topc_postfix" {
+  description = "SNS topic postfix"
+  type        = string
+  default     = ""
+}
+
 variable "monitor_cluster_status_is_red" {
   description = "Enable monitoring of cluster status is in red"
   type        = bool

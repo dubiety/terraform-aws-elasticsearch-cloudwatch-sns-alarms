@@ -7,12 +7,12 @@ data "aws_caller_identity" "default" {}
 # Make a topic
 resource "aws_sns_topic" "default_prefix" {
   count       = var.sns_topic == "" ? 1 : 0
-  name_prefix = "elasticsearch-threshold-alerts"
+  name_prefix = "${var.sns_topic_prefix}elasticsearch-threshold-alerts${var.sns_topc_postfix}"
 }
 
 resource "aws_sns_topic" "default" {
   count = var.sns_topic != "" ? 1 : 0
-  name  = var.sns_topic
+  name  = "${var.sns_topic_prefix}${var.sns_topic}${var.sns_topic_postfix}"
 }
 
 locals {

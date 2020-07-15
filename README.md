@@ -7,7 +7,7 @@ Terraform module that configures important elasticsearch alerts using CloudWatch
 
 Create a set of sane Elasticsearch CloudWatch alerts for monitoring the health of an elasticsearch cluster.
 
-`v1.0.0` supports terraform `v0.12` syntax!
+`v1.x` supports terraform `v0.12` syntax!
 
 This project is inspired by [CloudPosse](https://github.com/cloudposse)
 
@@ -81,6 +81,8 @@ module "es_alarms" {
 | `monitor_master_cpu_utilization_too_high` | Enable monitoring of CPU utilization of master nodes are too high. Only enable this when dedicated master is enabled | string | `false` | no |
 | `monitor_master_jvm_memory_pressure_too_high` | Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled | string | `false` | no |
 | `sns_topic` | SNS topic you want to specify. If leave empty, it will use a prefix and a timestampe appended | string | `""` | no |
+| `sns_topic_postfix` | SNS topic postfix | string | `""` | no |
+| `sns_topic_prefix` | SNS topic prefix | string | `""` | no |
 
 ## Outputs
 

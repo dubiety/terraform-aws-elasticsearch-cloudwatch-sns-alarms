@@ -18,6 +18,7 @@ module "es_alarms" {
   source              = "../../"
   domain_name         = "example"
   sns_topic           = "elasticsearch-threshold-alerts"
+  sns_topic_prefix    = "prod-"
   min_available_nodes = "3"
 }
 
