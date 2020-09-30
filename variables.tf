@@ -27,7 +27,7 @@ variable "sns_topic_prefix" {
   default     = ""
 }
 
-variable "sns_topc_postfix" {
+variable "sns_topic_postfix" {
   description = "SNS topic postfix"
   type        = string
   default     = ""
