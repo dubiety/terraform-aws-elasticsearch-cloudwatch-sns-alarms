@@ -92,7 +92,7 @@ module "es_alarms" {
 | `monitor_master_cpu_utilization_too_high` | Enable monitoring of CPU utilization of master nodes are too high. Only enable this when dedicated master is enabled | string | `false` | no |
 | `monitor_master_jvm_memory_pressure_too_high` | Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled | string | `false` | no |
 | `create_sns_topic` | Will create an SNS topic, if you set this to false you MUST set `sns_topic` to a FULL ARN | string | `true` | no |
-| `sns_topic` | SNS topic you want to specify. If leave empty, it will use a prefix and a timestampe appended.  If `create_sns_topic` is set to false, this MUST be a FULL ARN | string | `""` | no |
+| `sns_topic` | SNS topic you want to specify. If leave empty, it will use a prefix and a timestamp appended.  If `create_sns_topic` is set to false, this MUST be a FULL ARN | string | `""` | no |
 | `sns_topic_postfix` | SNS topic postfix | string | `""` | no |
 | `sns_topic_prefix` | SNS topic prefix | string | `""` | no |
 
