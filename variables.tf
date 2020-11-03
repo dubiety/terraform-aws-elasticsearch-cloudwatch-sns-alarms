@@ -3,6 +3,12 @@ variable "domain_name" {
   type        = string
 }
 
+variable "create_sns_topic" {
+  description = "If you don't want to create the SNS topic, set this to false.  It will use the sns_topic value directly"
+  type        = bool
+  default     = true
+}
+
 variable "sns_topic" {
   description = "SNS topic you want to specify. If leave empty, it will use a prefix and a timestampe appended"
   type        = string

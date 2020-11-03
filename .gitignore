@@ -7,3 +7,7 @@
 
 # .tfvars files
 *.tfvars
+
+# Build harness
+.build-harness
+build-harness/
