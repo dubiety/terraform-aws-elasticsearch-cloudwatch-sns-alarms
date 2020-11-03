@@ -16,24 +16,24 @@ resource "aws_sns_topic" "default" {
 }
 
 locals {
-  aws_sns_topic_arn  = coalesce(
-      element(
-        concat(
-          aws_sns_topic.default_prefix.*.arn,
-          [""],
-        ),
-        0,
+  aws_sns_topic_arn = coalesce(
+    element(
+      concat(
+        aws_sns_topic.default_prefix.*.arn,
+        [""],
       ),
-      element(
-        concat(
-          aws_sns_topic.default.*.arn,
-          [""],
-        ),
-        0,
+      0,
+    ),
+    element(
+      concat(
+        aws_sns_topic.default.*.arn,
+        [""],
       ),
-      var.sns_topic
-    )
-  aws_sns_topic_name = element(split(":",local.aws_sns_topic_arn),5)
+      0,
+    ),
+    var.sns_topic
+  )
+  aws_sns_topic_name = element(split(":", local.aws_sns_topic_arn), 5)
 }
 
 resource "aws_sns_topic_policy" "default" {
@@ -43,7 +43,7 @@ resource "aws_sns_topic_policy" "default" {
 }
 
 data "aws_iam_policy_document" "sns_topic_policy" {
-  count  = var.create_sns_topic == true ? 1 : 0
+  count     = var.create_sns_topic == true ? 1 : 0
   policy_id = "__default_policy_ID"
 
   statement {
