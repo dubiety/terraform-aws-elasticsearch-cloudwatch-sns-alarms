@@ -100,7 +100,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
 resource "aws_cloudwatch_metric_alarm" "insufficient_available_nodes" {
   count               = var.min_available_nodes > 0 ? 1 : 0
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-InsufficientAvailableNodes${var.alarm_name_postfix}"
-  comparison_operator = "LessThanOrEqualToThreshold"
+  comparison_operator = "LessThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "Nodes"
   namespace           = "AWS/ES"
