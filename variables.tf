@@ -63,12 +63,6 @@ variable "monitor_cluster_index_writes_blocked" {
   default     = true
 }
 
-variable "monitor_insufficient_available_nodes" {
-  description = "Enable monitoring insufficient available nodes"
-  type        = bool
-  default     = false
-}
-
 variable "monitor_automated_snapshot_failure" {
   description = "Enable monitoring of automated snapshot failure"
   type        = bool
@@ -85,6 +79,12 @@ variable "monitor_jvm_memory_pressure_too_high" {
   description = "Enable monitoring of JVM memory pressure is too high"
   type        = bool
   default     = true
+}
+
+variable "monitor_kms" {
+  description = "Enable monitoring of KMS-related metrics.  Only enable this when using KMS with ElasticSearch"
+  type        = bool
+  default     = false
 }
 
 variable "monitor_master_cpu_utilization_too_high" {
@@ -106,9 +106,9 @@ variable "free_storage_space_threshold" {
 }
 
 variable "min_available_nodes" {
-  description = "The minimum available (reachable) nodes to have"
+  description = "The minimum available (reachable) nodes to have, set to non-zero to enable"
   type        = number
-  default     = 1
+  default     = 0
 }
 
 variable "cpu_utilization_threshold" {
@@ -141,4 +141,22 @@ variable "master_jvm_memory_pressure_threshold" {
   default     = 80 # default same as `jvm_memory_pressure_threshold` in Percentage
 
 
+}
+
+variable "alarm_cluster_status_is_yellow_periods" {
+  description = "The number of periods to alert that cluster status is yellow.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
+  type        = number
+  default     = 1
+}
+
+variable "alarm_free_storage_space_too_low_periods" {
+  description = "The number of periods to alert that cluster free storage space is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
+  type        = number
+  default     = 1
+}
+
+variable "tags" {
+  description = "A map of tags to add to all resources"
+  type        = map(string)
+  default     = {}
 }
