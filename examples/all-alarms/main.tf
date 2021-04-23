@@ -31,7 +31,7 @@ module "es_alarms" {
   # You should always specify how big your ES cluster's disk size is.  Using this calculation of (size-in-gb * instance count * GB-to-MB * 20%) because 20% is the best-practice for low disk, per AWS's recommendations
   free_storage_space_threshold = var.elasticsearch_disk_size * var.elasticsearch_instance_count * 1024 * 0.20
   # Use this if using KMS on your ElasticSearch
-  monitor_kms_functioning = true
+  monitor_kms = true
   # Use these to monitor how many nodes are available and that they are all functional
   min_available_nodes = var.elasticsearch_instance_count
   # Use this to monitor high CPU on your masters (if using masters)
