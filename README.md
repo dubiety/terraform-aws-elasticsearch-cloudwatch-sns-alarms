@@ -55,6 +55,9 @@ resource "aws_elasticsearch_domain" "es" {
 module "es_alarms" {
   source         = "github::https://github.com/dubiety/terraform-aws-elasticsearch-cloudwatch-sns-alarms.git?ref=master"
   domain_name    = "example"
+  tags = {
+    Domain = "TestDomain"
+  }
 }
 ```
 
@@ -66,6 +69,9 @@ module "es_alarms" {
   domain_name      = "example"
   sns_topic        = "arn:aws:sns:us-east-1:123456123456:sns-to-slack"   # < Put your full SNS ARN here, if necessary read from var or a resource
   create_sns_topic = false
+  tags = {
+    Domain = "TestDomain"
+  }
 }
 ```
 
@@ -99,6 +105,7 @@ module "es_alarms" {
 | `sns_topic`                                   | SNS topic you want to specify. If leave empty, it will use a prefix and a timestamp appended.  If `create_sns_topic` is set to false, this MUST be a FULL ARN | string | `""` | no |
 | `sns_topic_postfix`                           | SNS topic postfix | string | `""` | no |
 | `sns_topic_prefix`                            | SNS topic prefix | string | `""` | no |
+| `tags`                                        | Tags to associate with all created resources | map | `{}` | no |
 
 
 ## Outputs
