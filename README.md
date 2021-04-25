@@ -86,7 +86,7 @@ module "es_alarms" {
 | `alarm_name_postfix`                          | Alarm name postfix | string | `""` | no |
 | `alarm_name_prefix`                           | Alarm name prefix | string | `""` | no |
 | `cpu_utilization_threshold`                   | The maximum percentage of CPU utilization | string | `80` | no |
-| `free_storage_space_threshold`                | The minimum amount of available storage space in Byte. | string | `21474836480` | no |
+| `free_storage_space_threshold`                | The minimum amount of available storage space in MiB. | string | `20480` | no |
 | `jvm_memory_pressure_threshold`               | The maximum percentage of the Java heap used for all data nodes in the cluster | string | `80` | no |
 | `master_cpu_utilization_threshold`            | The maximum percentage of CPU utilization of master nodes | string | `""` | no |
 | `master_jvm_memory_pressure_threshold`        | The maximum percentage of the Java heap used for master nodes in the cluster | string | `""` | no |
@@ -106,7 +106,6 @@ module "es_alarms" {
 | `sns_topic_postfix`                           | SNS topic postfix | string | `""` | no |
 | `sns_topic_prefix`                            | SNS topic prefix | string | `""` | no |
 | `tags`                                        | Tags to associate with all created resources | map | `{}` | no |
-
 
 ## Outputs
 
