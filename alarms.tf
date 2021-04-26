@@ -19,10 +19,11 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_red" {
   period              = "60"
   statistic           = "Maximum"
   threshold           = "1"
-  alarm_description   = "Average elasticsearch cluster status is in red over last 1 minutes"
+  alarm_description   = "Average elasticsearch cluster status is in red over last 1 minute"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -34,16 +35,17 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_yellow" {
   count               = var.monitor_cluster_status_is_yellow ? 1 : 0
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-ClusterStatusIsYellow${var.alarm_name_postfix}"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = var.alarm_cluster_status_is_yellow_periods
   metric_name         = "ClusterStatus.yellow"
   namespace           = "AWS/ES"
   period              = "60"
   statistic           = "Maximum"
   threshold           = "1"
-  alarm_description   = "Average elasticsearch cluster status is in yellow over last 1 minutes"
+  alarm_description   = "Average elasticsearch cluster status is in yellow over last ${var.alarm_cluster_status_is_yellow_periods} minute(s)"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -55,16 +57,17 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
   count               = var.monitor_free_storage_space_too_low ? 1 : 0
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-FreeStorageSpaceTooLow${var.alarm_name_postfix}"
   comparison_operator = "LessThanOrEqualToThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = var.alarm_free_storage_space_too_low_periods
   metric_name         = "FreeStorageSpace"
   namespace           = "AWS/ES"
   period              = "60"
   statistic           = "Minimum"
   threshold           = local.thresholds["FreeStorageSpaceThreshold"]
-  alarm_description   = "Average elasticsearch free storage space over last 1 minutes is too low"
+  alarm_description   = "Average elasticsearch free storage space over last ${var.alarm_free_storage_space_too_low_periods} minute(s) is too low"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -86,6 +89,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -94,9 +98,9 @@ resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "insufficient_available_nodes" {
-  count               = var.monitor_insufficient_available_nodes ? 1 : 0
+  count               = var.min_available_nodes > 0 ? 1 : 0
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-InsufficientAvailableNodes${var.alarm_name_postfix}"
-  comparison_operator = "LessThanOrEqualToThreshold"
+  comparison_operator = "LessThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "Nodes"
   namespace           = "AWS/ES"
@@ -107,6 +111,7 @@ resource "aws_cloudwatch_metric_alarm" "insufficient_available_nodes" {
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -124,10 +129,11 @@ resource "aws_cloudwatch_metric_alarm" "automated_snapshot_failure" {
   period              = "60"
   statistic           = "Maximum"
   threshold           = "1"
-  alarm_description   = "Elasticsearch automated snapshot failed over last 1 minutes"
+  alarm_description   = "Elasticsearch automated snapshot failed over last 1 minute"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -148,6 +154,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization_too_high" {
   alarm_description   = "Average elasticsearch cluster CPU utilization over last 45 minutes too high"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -168,6 +175,7 @@ resource "aws_cloudwatch_metric_alarm" "jvm_memory_pressure_too_high" {
   alarm_description   = "Elasticsearch JVM memory pressure is too high over last 15 minutes"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -188,6 +196,7 @@ resource "aws_cloudwatch_metric_alarm" "master_cpu_utilization_too_high" {
   alarm_description   = "Average elasticsearch cluster CPU utilization over last 45 minutes too high"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name
@@ -208,6 +217,51 @@ resource "aws_cloudwatch_metric_alarm" "master_jvm_memory_pressure_too_high" {
   alarm_description   = "Elasticsearch JVM memory pressure is too high over last 15 minutes"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
+  tags                = var.tags
+
+  dimensions = {
+    DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.default.account_id
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "kms_key_error" {
+  count               = var.monitor_kms ? 1 : 0
+  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-KMSKeyError${var.alarm_name_postfix}"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "KMSKeyError"
+  namespace           = "AWS/ES"
+  period              = "60"
+  statistic           = "Maximum"
+  threshold           = "1"
+  alarm_description   = "Elasticsearch KMS Key Error failed over last 1 minute"
+  alarm_actions       = [local.aws_sns_topic_arn]
+  ok_actions          = [local.aws_sns_topic_arn]
+  treat_missing_data  = "ignore"
+  tags                = var.tags
+
+  dimensions = {
+    DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.default.account_id
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "kms_key_inaccessible" {
+  count               = var.monitor_kms ? 1 : 0
+  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-KMSKeyInaccessible${var.alarm_name_postfix}"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "KMSKeyInaccessible"
+  namespace           = "AWS/ES"
+  period              = "60"
+  statistic           = "Maximum"
+  threshold           = "1"
+  alarm_description   = "Elasticsearch KMS Key Inaccessible failed over last 1 minute"
+  alarm_actions       = [local.aws_sns_topic_arn]
+  ok_actions          = [local.aws_sns_topic_arn]
+  treat_missing_data  = "ignore"
+  tags                = var.tags
 
   dimensions = {
     DomainName = var.domain_name

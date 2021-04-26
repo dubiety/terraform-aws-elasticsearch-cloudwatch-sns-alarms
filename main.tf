@@ -4,11 +4,13 @@ data "aws_caller_identity" "default" {}
 resource "aws_sns_topic" "default_prefix" {
   count       = var.sns_topic == "" && var.create_sns_topic == true ? 1 : 0
   name_prefix = "${var.sns_topic_prefix}elasticsearch-threshold-alerts${var.sns_topic_postfix}"
+  tags        = var.tags
 }
 
 resource "aws_sns_topic" "default" {
   count = var.sns_topic != "" && var.create_sns_topic == true ? 1 : 0
   name  = "${var.sns_topic_prefix}${var.sns_topic}${var.sns_topic_postfix}"
+  tags  = var.tags
 }
 
 locals {
