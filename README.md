@@ -6,6 +6,7 @@
 Terraform module that configures the [recommended Amazon ElasticSearch Alarms](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/cloudwatch-alarms.html) using CloudWatch and sends alerts to an SNS topic.  By default, this module creates an SNS topic, but it can be configured to point to an existing SNS topic (see [example](./examples/use-existing-sns/main.tf))
 
 `v1.x` supports terraform `v0.12+` syntax!
+`v2.0+` supports terraform `v1.0+` syntax!
 
 This project is inspired by [CloudPosse](https://github.com/cloudposse)
 
