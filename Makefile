@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-TERRAFORM_VERSION ?= 1.0.1
+TERRAFORM_VERSION ?= 1.0.5
 
 -include $(shell curl -sSL -o .build-harness "https://git.io/build-harness"; echo .build-harness)
 

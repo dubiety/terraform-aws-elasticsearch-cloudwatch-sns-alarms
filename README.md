@@ -102,6 +102,17 @@ module "es_alarms" {
 | `monitor_kms`                                 | Enable monitoring of KMS-related metrics, enable if using KMS | bool | `false` | no |
 | `monitor_master_cpu_utilization_too_high`     | Enable monitoring of CPU utilization of master nodes are too high. Only enable this when dedicated master is enabled | bool | `false` | no |
 | `monitor_master_jvm_memory_pressure_too_high` | Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled | bool | `false` | no |
+| `monitor_min_available_nodes_period`          | The period of the minimum available nodes should the statistics be applied in seconds | string | `86400` | no |
+| `monitor_automated_snapshot_failure_period`   | The period of the automated snapshot failure should the statistics be applied in seconds | string | `60` | no |
+| `monitor_cluster_index_writes_blocked_period` | The period of the cluster index writes being blocked should the statistics be applied in seconds | string | `300` | no |
+| `monitor_cluster_status_is_red_period`        | The period of the cluster status is in red should the statistics be applied in seconds | string | `60` | no |
+| `monitor_cluster_status_is_yellow_period`     | The period of the cluster status is in yellow should the statistics be applied in seconds | string | `60` | no |
+| `monitor_cpu_utilization_too_high_period`     | The period of the CPU utilization is too high should the statistics be applied in seconds | string | `900` | no |
+| `monitor_free_storage_space_too_low_period`   | The period of the cluster average free storage is too low should the statistics be applied in seconds | string | `60` | no |
+| `monitor_jvm_memory_pressure_too_high_period` | The period of the JVM memory pressure is too high should the statistics be applied in seconds | string | `900` | no |
+| `monitor_kms_period`                          | The period of the KMS-related metrics should the statistics be applied in seconds | string | `60` | no |
+| `monitor_master_cpu_utilization_too_high_period`     | The period of the CPU utilization of master nodes are too high should the statistics be applied in seconds | string | `900` | no |
+| `monitor_master_jvm_memory_pressure_too_high_period` | The period of the JVM memory pressure of master nodes are too high should the statistics be applied in seconds | string | `900` | no |
 | `create_sns_topic`                            | Will create an SNS topic, if you set this to false you MUST set `sns_topic` to a FULL ARN | bool | `true` | no |
 | `sns_topic`                                   | SNS topic you want to specify. If leave empty, it will use a prefix and a timestamp appended.  If `create_sns_topic` is set to false, this MUST be a FULL ARN | string | `""` | no |
 | `sns_topic_postfix`                           | SNS topic postfix | string | `""` | no |

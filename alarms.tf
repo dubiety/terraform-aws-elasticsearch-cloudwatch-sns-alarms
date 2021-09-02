@@ -16,7 +16,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_red" {
   evaluation_periods  = "1"
   metric_name         = "ClusterStatus.red"
   namespace           = "AWS/ES"
-  period              = "60"
+  period              = var.monitor_cluster_status_is_red_period
   statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Average elasticsearch cluster status is in red over last 1 minute"
@@ -38,7 +38,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_status_is_yellow" {
   evaluation_periods  = var.alarm_cluster_status_is_yellow_periods
   metric_name         = "ClusterStatus.yellow"
   namespace           = "AWS/ES"
-  period              = "60"
+  period              = var.monitor_cluster_status_is_yellow_period
   statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Average elasticsearch cluster status is in yellow over last ${var.alarm_cluster_status_is_yellow_periods} minute(s)"
@@ -60,7 +60,7 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
   evaluation_periods  = var.alarm_free_storage_space_too_low_periods
   metric_name         = "FreeStorageSpace"
   namespace           = "AWS/ES"
-  period              = "60"
+  period              = var.monitor_free_storage_space_too_low_period
   statistic           = "Minimum"
   threshold           = local.thresholds["FreeStorageSpaceThreshold"]
   alarm_description   = "Average elasticsearch free storage space over last ${var.alarm_free_storage_space_too_low_periods} minute(s) is too low"
@@ -82,7 +82,7 @@ resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
   evaluation_periods  = "1"
   metric_name         = "ClusterIndexWritesBlocked"
   namespace           = "AWS/ES"
-  period              = "300"
+  period              = var.monitor_cluster_index_writes_blocked_period
   statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Elasticsearch index writes being blocker over last 5 minutes"
@@ -104,7 +104,7 @@ resource "aws_cloudwatch_metric_alarm" "insufficient_available_nodes" {
   evaluation_periods  = "1"
   metric_name         = "Nodes"
   namespace           = "AWS/ES"
-  period              = "86400"
+  period              = var.monitor_min_available_nodes_period
   statistic           = "Minimum"
   threshold           = local.thresholds["MinimumAvailableNodes"]
   alarm_description   = "Elasticsearch nodes minimum < ${local.thresholds["MinimumAvailableNodes"]} for 1 day"
@@ -126,7 +126,7 @@ resource "aws_cloudwatch_metric_alarm" "automated_snapshot_failure" {
   evaluation_periods  = "1"
   metric_name         = "AutomatedSnapshotFailure"
   namespace           = "AWS/ES"
-  period              = "60"
+  period              = var.monitor_automated_snapshot_failure_period
   statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Elasticsearch automated snapshot failed over last 1 minute"
@@ -148,7 +148,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization_too_high" {
   evaluation_periods  = "3"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ES"
-  period              = "900"
+  period              = var.monitor_cpu_utilization_too_high_period
   statistic           = "Average"
   threshold           = local.thresholds["CPUUtilizationThreshold"]
   alarm_description   = "Average elasticsearch cluster CPU utilization over last 45 minutes too high"
@@ -169,7 +169,7 @@ resource "aws_cloudwatch_metric_alarm" "jvm_memory_pressure_too_high" {
   evaluation_periods  = "1"
   metric_name         = "JVMMemoryPressure"
   namespace           = "AWS/ES"
-  period              = "900"
+  period              = var.monitor_jvm_memory_pressure_too_high_period
   statistic           = "Maximum"
   threshold           = local.thresholds["JVMMemoryPressureThreshold"]
   alarm_description   = "Elasticsearch JVM memory pressure is too high over last 15 minutes"
@@ -190,7 +190,7 @@ resource "aws_cloudwatch_metric_alarm" "master_cpu_utilization_too_high" {
   evaluation_periods  = "3"
   metric_name         = "MasterCPUUtilization"
   namespace           = "AWS/ES"
-  period              = "900"
+  period              = var.monitor_master_cpu_utilization_too_high_period
   statistic           = "Average"
   threshold           = local.thresholds["MasterCPUUtilizationThreshold"]
   alarm_description   = "Average elasticsearch cluster CPU utilization over last 45 minutes too high"
@@ -211,7 +211,7 @@ resource "aws_cloudwatch_metric_alarm" "master_jvm_memory_pressure_too_high" {
   evaluation_periods  = "1"
   metric_name         = "MasterJVMMemoryPressure"
   namespace           = "AWS/ES"
-  period              = "900"
+  period              = var.monitor_master_jvm_memory_pressure_too_high_period
   statistic           = "Maximum"
   threshold           = local.thresholds["MasterJVMMemoryPressureThreshold"]
   alarm_description   = "Elasticsearch JVM memory pressure is too high over last 15 minutes"
@@ -232,7 +232,7 @@ resource "aws_cloudwatch_metric_alarm" "kms_key_error" {
   evaluation_periods  = "1"
   metric_name         = "KMSKeyError"
   namespace           = "AWS/ES"
-  period              = "60"
+  period              = var.monitor_kms_period
   statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Elasticsearch KMS Key Error failed over last 1 minute"
@@ -254,7 +254,7 @@ resource "aws_cloudwatch_metric_alarm" "kms_key_inaccessible" {
   evaluation_periods  = "1"
   metric_name         = "KMSKeyInaccessible"
   namespace           = "AWS/ES"
-  period              = "60"
+  period              = var.monitor_kms_period
   statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Elasticsearch KMS Key Inaccessible failed over last 1 minute"
