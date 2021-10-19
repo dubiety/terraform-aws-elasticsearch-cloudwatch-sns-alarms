@@ -9,7 +9,7 @@ variable "cluster_type" {
   default     = "single"
   validation {
     condition     = contains(["single", "multi"], var.cluster_type)
-    error_message = "Valid values for variable: cluster_type are (single, multi)"
+    error_message = "Valid values for variable: cluster_type are (single, multi)."
   }
 }
 
