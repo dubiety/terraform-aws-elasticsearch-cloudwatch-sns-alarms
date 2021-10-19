@@ -61,7 +61,7 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
   metric_name         = "FreeStorageSpace"
   namespace           = "AWS/ES"
   period              = var.monitor_free_storage_space_too_low_period
-  statistic           = "Minimum"
+  statistic           = var.cluster_type == "single" ? "Minimum" : "Sum" 
   threshold           = local.thresholds["FreeStorageSpaceThreshold"]
   alarm_description   = "Average elasticsearch free storage space over last ${var.alarm_free_storage_space_too_low_periods} minute(s) is too low"
   alarm_actions       = [local.aws_sns_topic_arn]

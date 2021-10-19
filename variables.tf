@@ -3,6 +3,12 @@ variable "domain_name" {
   type        = string
 }
 
+variable "cluster_type" {
+  description = "The type of cluster, single or multi-node"
+  type        = list("single", "multi")
+  default     = "single"
+}
+
 variable "create_sns_topic" {
   description = "If you don't want to create the SNS topic, set this to false.  It will use the sns_topic value directly"
   type        = bool
