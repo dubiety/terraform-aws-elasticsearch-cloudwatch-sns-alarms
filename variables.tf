@@ -3,6 +3,16 @@ variable "domain_name" {
   type        = string
 }
 
+variable "cluster_type" {
+  description = "The type of cluster, single or multi-node"
+  type        = string
+  default     = "single"
+  validation {
+    condition     = contains(["single", "multi"], var.cluster_type)
+    error_message = "Valid values for variable: cluster_type are (single, multi)."
+  }
+}
+
 variable "create_sns_topic" {
   description = "If you don't want to create the SNS topic, set this to false.  It will use the sns_topic value directly"
   type        = bool

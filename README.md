@@ -82,6 +82,7 @@ module "es_alarms" {
 | Name                                          | Description | Type | Default | Required |
 |-----------------------------------------------|-------------|:----:|:-------:|:--------:|
 | `domain_name`                                 | The Elasticserach domain name you want to monitor. | string | - | yes |
+| `cluster_type`                                | The type of cluster, single or multi-node | string | `"single"` | no |
 | `alarm_cluster_status_is_yellow_periods`      | The number of periods before triggering the cluster status is yellow, raise this if desired to make less noisy | number | `1` | no |
 | `alarm_free_storage_space_too_low_periods`    | The number of periods before triggering the disk space is low, raise this if desired to make less noisy | number | `1` | no |
 | `alarm_name_postfix`                          | Alarm name postfix | string | `""` | no |
