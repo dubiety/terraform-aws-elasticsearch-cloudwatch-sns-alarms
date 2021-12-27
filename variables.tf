@@ -211,25 +211,25 @@ variable "min_available_nodes" {
 variable "cpu_utilization_threshold" {
   description = "The maximum percentage of CPU utilization"
   type        = number
-  default     = 80   # 80 percent in Percentage
+  default     = 80 # 80 percent in Percentage
 }
 
 variable "jvm_memory_pressure_threshold" {
   description = "The maximum percentage of the Java heap used for all data nodes in the cluster"
   type        = number
-  default     = 80   # 80 percent in Percentage
+  default     = 80 # 80 percent in Percentage
 }
 
 variable "master_cpu_utilization_threshold" {
   description = "The maximum percentage of CPU utilization of master nodes"
   type        = number
-  default     = 80   # default same as `cpu_utilization_threshold` in Percentage
+  default     = 80 # default same as `cpu_utilization_threshold` in Percentage
 }
 
 variable "master_jvm_memory_pressure_threshold" {
   description = "The maximum percentage of the Java heap used for master nodes in the cluster"
   type        = number
-  default     = 80   # default same as `jvm_memory_pressure_threshold` in Percentage
+  default     = 80 # default same as `jvm_memory_pressure_threshold` in Percentage
 }
 
 
