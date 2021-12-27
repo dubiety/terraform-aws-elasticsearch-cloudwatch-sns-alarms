@@ -24,10 +24,10 @@ variable "elasticsearch_instance_count" {
 
 
 module "es_alarms" {
-  source              = "../../"
-  domain_name         = "example"
-  sns_topic           = "elasticsearch-threshold-alerts"
-  sns_topic_prefix    = "prod-"
+  source           = "../../"
+  domain_name      = "example"
+  sns_topic        = "elasticsearch-threshold-alerts"
+  sns_topic_prefix = "prod-"
   # You should always specify how big your ES cluster's disk size is.  Using this calculation of (size-in-gb * instance count * GB-to-MB * 20%) because 20% is the best-practice for low disk, per AWS's recommendations
   free_storage_space_threshold = var.elasticsearch_disk_size * var.elasticsearch_instance_count * 1024 * 0.20
   # Use this if using KMS on your ElasticSearch
