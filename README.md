@@ -1,6 +1,7 @@
 # terraform-aws-elasticsearch-cloudwatch-sns-alarms
 
-[![Build Status](https://travis-ci.com/dubiety/terraform-aws-elasticsearch-cloudwatch-sns-alarms.svg?branch=master)](https://travis-ci.org/dubiety/terraform-aws-elasticsearch-cloudwatch-sns-alarms)
+https://app.travis-ci.com/dubiety/terraform-aws-elasticsearch-cloudwatch-sns-alarms.svg?branch=master
+[![Build Status](https://travis-ci.com/dubiety/terraform-aws-elasticsearch-cloudwatch-sns-alarms.svg?branch=master)](https://app.travis-ci.com/github/dubiety/terraform-aws-elasticsearch-cloudwatch-sns-alarms)
 [![Latest Release](https://img.shields.io/github/release/dubiety/terraform-aws-elasticsearch-cloudwatch-sns-alarms.svg)](https://github.com/dubiety/terraform-aws-elasticsearch-cloudwatch-sns-alarms/releases)
 
 Terraform module that configures the [recommended Amazon ElasticSearch Alarms](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/cloudwatch-alarms.html) using CloudWatch and sends alerts to an SNS topic.  By default, this module creates an SNS topic, but it can be configured to point to an existing SNS topic (see [example](./examples/use-existing-sns/main.tf))
