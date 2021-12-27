@@ -236,34 +236,28 @@ variable "master_jvm_memory_pressure_threshold" {
 ########################################
 # Evaluation periods for alarms
 ########################################
-variable "alarm_cluster_status_is_yellow_periods" {
-  description = "The number of periods to alert that cluster status is yellow.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
-  type        = number
-  default     = 1
-}
-
 variable "monitor_cluster_status_is_red_periods" {
   description = "The number of periods to alert that cluster status is red.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
 }
 
-variable "monitor_cpu_utilization_too_high_periods" {
-  description = "The number of periods to alert that CPU usage is too high.  Default: 3, raise this to be less noisy, as this can occur often for only 1 period"
+variable "alarm_cluster_status_is_yellow_periods" {
+  description = "The number of periods to alert that cluster status is yellow.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
-  default     = 3
+  default     = 1
 }
 
-variable "monitor_master_cpu_utilization_too_high_periods" {
-  description = "The number of periods to alert that masters CPU usage is too high.  Default: 3, raise this to be less noisy, as this can occur often for only 1 period"
+variable "alarm_free_storage_space_too_low_periods" {
+  description = "The number of periods to alert that cluster free storage space is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
-  default     = 3
+  default     = 1
 }
 
-variable "monitor_master_er_cpu_utilization_too_high_ds" {
-  description = "The number of periods to alert that JVM memory pressure is too high.  Default: 3, raise this to be less noisy, as this can occur often for only 1 period"
+variable "monitor_cluster_index_writes_blocked_periods" {
+  description = "The number of periods to alert that cluster index writes are blocked.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
-  default     = 3
+  default     = 1
 }
 
 variable "monitor_min_available_nodes_periods" {
@@ -278,10 +272,10 @@ variable "monitor_automated_snapshot_failure_periods" {
   default     = 1
 }
 
-variable "monitor_cluster_index_writes_blocked_periods" {
-  description = "The number of periods to alert that cluster index writes are blocked.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
+variable "monitor_cpu_utilization_too_high_periods" {
+  description = "The number of periods to alert that CPU usage is too high.  Default: 3, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
-  default     = 1
+  default     = 3
 }
 
 variable "monitor_jvm_memory_pressure_too_high_periods" {
@@ -290,14 +284,14 @@ variable "monitor_jvm_memory_pressure_too_high_periods" {
   default     = 1
 }
 
-variable "monitor_master_jvm_memory_pressure_too_high_periods" {
-  description = "The number of periods which it must be in the alarmed state to alert"
+variable "monitor_master_cpu_utilization_too_high_periods" {
+  description = "The number of periods to alert that masters CPU usage is too high.  Default: 3, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
-  default     = 1
+  default     = 3
 }
 
-variable "alarm_free_storage_space_too_low_periods" {
-  description = "The number of periods to alert that cluster free storage space is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
+variable "monitor_master_jvm_memory_pressure_too_high_periods" {
+  description = "The number of periods which it must be in the alarmed state to alert"
   type        = number
   default     = 1
 }
