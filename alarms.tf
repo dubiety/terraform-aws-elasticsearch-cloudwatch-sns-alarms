@@ -1,6 +1,7 @@
 locals {
   thresholds = {
     FreeStorageSpaceThreshold        = max(var.free_storage_space_threshold, 0)
+    FreeStorageSpaceTotalThreshold   = max(var.free_storage_space_total_threshold, 0)
     MinimumAvailableNodes            = max(var.min_available_nodes, 0)
     CPUUtilizationThreshold          = min(max(var.cpu_utilization_threshold, 0), 100)
     JVMMemoryPressureThreshold       = min(max(var.jvm_memory_pressure_threshold, 0), 100)
@@ -64,9 +65,9 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
   metric_name         = "FreeStorageSpace"
   namespace           = "AWS/ES"
   period              = var.monitor_free_storage_space_too_low_period
-  statistic           = var.cluster_type == "single" ? "Minimum" : "Sum"
+  statistic           = "Minimum"
   threshold           = local.thresholds["FreeStorageSpaceThreshold"]
-  alarm_description   = "Average elasticsearch free storage space over last ${var.alarm_free_storage_space_too_low_periods} minute(s) is too low"
+  alarm_description   = "Minimum elasticsearch free storage space on a single node over last ${var.monitor_free_storage_space_too_low_periods} minute(s) is too low"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
@@ -77,6 +78,32 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_too_low" {
     ClientId   = data.aws_caller_identity.default.account_id
   }
 }
+
+resource "aws_cloudwatch_metric_alarm" "free_storage_space_total_too_low" {
+  # If the user specified how many nodes, and they want to create this alert (disabled by default)
+  count               = var.monitor_free_storage_space_total_too_low ? var.min_available_nodes > 0 ? 1 : 0 : 0
+  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-FreeStorageSpaceTotalTooLow${var.alarm_name_postfix}"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods  = var.monitor_free_storage_space_total_too_low_periods
+  datapoints_to_alarm = var.monitor_free_storage_space_total_too_low_periods
+  metric_name         = "FreeStorageSpaceTotal"
+  namespace           = "AWS/ES"
+  period              = var.monitor_free_storage_space_total_too_low_period
+  statistic           = "Sum"
+  threshold           = local.thresholds["FreeStorageSpaceTotalThreshold"]
+  alarm_description   = "Total aggregate elasticsearch free storage space over last ${var.monitor_free_storage_space_too_low_periods} minute(s) is too low"
+  alarm_actions       = [local.aws_sns_topic_arn]
+  ok_actions          = [local.aws_sns_topic_arn]
+  treat_missing_data  = "ignore"
+  tags                = var.tags
+
+  dimensions = {
+    DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.default.account_id
+  }
+}
+
+
 
 resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
   count               = var.monitor_cluster_index_writes_blocked ? 1 : 0

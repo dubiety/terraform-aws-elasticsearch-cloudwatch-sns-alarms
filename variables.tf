@@ -3,16 +3,6 @@ variable "domain_name" {
   type        = string
 }
 
-variable "cluster_type" {
-  description = "The type of cluster, single or multi-node.  Used in the free_storage_space_too_low alert to calculate free storage space properly"
-  type        = string
-  default     = "single"
-  validation {
-    condition     = contains(["single", "multi"], var.cluster_type)
-    error_message = "Valid values for variable: cluster_type are (single, multi)."
-  }
-}
-
 variable "alarm_name_prefix" {
   description = "Alarm name prefix, used in the naming of alarms created"
   type        = string
@@ -76,9 +66,15 @@ variable "monitor_cluster_status_is_yellow" {
 }
 
 variable "monitor_free_storage_space_too_low" {
-  description = "Enable monitoring of cluster average free storage is to low"
+  description = "Enable monitoring of cluster per-node free storage is too low"
   type        = bool
   default     = true
+}
+
+variable "monitor_free_storage_space_total_too_low" {
+  description = "Enable monitoring of cluster total free storage is too low.  Disabled by default, if you set this you must set free_storage_space_total_threshold also"
+  type        = bool
+  default     = false
 }
 
 variable "monitor_cluster_index_writes_blocked" {
@@ -145,7 +141,13 @@ variable "monitor_cluster_status_is_yellow_period" {
 }
 
 variable "monitor_free_storage_space_too_low_period" {
-  description = "The period of the cluster average free storage is too low should the statistics be applied in seconds"
+  description = "The period of the per-node free storage is too low should the statistics be applied in seconds"
+  type        = number
+  default     = 60
+}
+
+variable "monitor_free_storage_space_total_too_low_period" {
+  description = "The period of the total cluster free storage is too low should the statistics be applied in seconds"
   type        = number
   default     = 60
 }
@@ -197,7 +199,13 @@ variable "monitor_master_jvm_memory_pressure_too_high_period" {
 # Alarm thresholds
 ########################################
 variable "free_storage_space_threshold" {
-  description = "The minimum amount of available storage space in MegaByte."
+  description = "The minimum amount of available storage space in megabytes.  This is per-node."
+  type        = number
+  default     = 20480 ## 20 Gigabyte in MegaByte
+}
+
+variable "free_storage_space_total_threshold" {
+  description = "The minimum amount of available storage space in megabytes aggregated across your cluster (for multi-node).  This is an aggregate, typically use (free_storage_space_threshold * min_available_nodes)"
   type        = number
   default     = 20480 ## 20 Gigabyte in MegaByte
 }
@@ -249,7 +257,13 @@ variable "alarm_cluster_status_is_yellow_periods" {
 }
 
 variable "alarm_free_storage_space_too_low_periods" {
-  description = "The number of periods to alert that cluster free storage space is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
+  description = "The number of periods to alert that the per-node free storage space is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
+  type        = number
+  default     = 1
+}
+
+variable "monitor_free_storage_space_total_too_low_periods" {
+  description = "The number of periods to alert that total cluster free storage space is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
 }
