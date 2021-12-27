@@ -83,6 +83,12 @@ variable "monitor_cluster_index_writes_blocked" {
   default     = true
 }
 
+variable "monitor_min_available_nodes" {
+  description = "Enable monitoring of minimum available nodes"
+  type        = bool
+  default     = true
+}
+
 variable "monitor_automated_snapshot_failure" {
   description = "Enable monitoring of automated snapshot failure"
   type        = bool
@@ -122,73 +128,73 @@ variable "monitor_master_jvm_memory_pressure_too_high" {
 ########################################
 # Evaluation period time length (in seconds) for alarms
 ########################################
-variable "monitor_min_available_nodes_period" {
+variable "alarm_min_available_nodes_period" {
   description = "The period of the minimum available nodes should the statistics be applied in seconds"
   type        = number
   default     = 86400
 }
 
-variable "monitor_cluster_status_is_red_period" {
+variable "alarm_cluster_status_is_red_period" {
   description = "The period of the cluster status is in red should the statistics be applied in seconds"
   type        = number
   default     = 60
 }
 
-variable "monitor_cluster_status_is_yellow_period" {
+variable "alarm_cluster_status_is_yellow_period" {
   description = "The period of the cluster status is in yellow should the statistics be applied in seconds"
   type        = number
   default     = 60
 }
 
-variable "monitor_free_storage_space_too_low_period" {
+variable "alarm_free_storage_space_too_low_period" {
   description = "The period of the per-node free storage is too low should the statistics be applied in seconds"
   type        = number
   default     = 60
 }
 
-variable "monitor_free_storage_space_total_too_low_period" {
+variable "alarm_free_storage_space_total_too_low_period" {
   description = "The period of the total cluster free storage is too low should the statistics be applied in seconds"
   type        = number
   default     = 60
 }
 
-variable "monitor_cluster_index_writes_blocked_period" {
+variable "alarm_cluster_index_writes_blocked_period" {
   description = "The period of the cluster index writes being blocked should the statistics be applied in seconds"
   type        = number
   default     = 300
 }
 
-variable "monitor_automated_snapshot_failure_period" {
+variable "alarm_automated_snapshot_failure_period" {
   description = "The period of the automated snapshot failure should the statistics be applied in seconds"
   type        = number
   default     = 60
 }
 
-variable "monitor_cpu_utilization_too_high_period" {
+variable "alarm_cpu_utilization_too_high_period" {
   description = "The period of the CPU utilization is too high should the statistics be applied in seconds"
   type        = number
   default     = 900
 }
 
-variable "monitor_jvm_memory_pressure_too_high_period" {
+variable "alarm_jvm_memory_pressure_too_high_period" {
   description = "The period of the JVM memory pressure is too high should the statistics be applied in seconds"
   type        = number
   default     = 900
 }
 
-variable "monitor_kms_period" {
+variable "alarm_kms_period" {
   description = "The period of the KMS-related metrics should the statistics be applied in seconds"
   type        = number
   default     = 60
 }
 
-variable "monitor_master_cpu_utilization_too_high_period" {
+variable "alarm_master_cpu_utilization_too_high_period" {
   description = "The period of the CPU utilization of master nodes are too high should the statistics be applied in seconds"
   type        = number
   default     = 900
 }
 
-variable "monitor_master_jvm_memory_pressure_too_high_period" {
+variable "alarm_master_jvm_memory_pressure_too_high_period" {
   description = "The period of the JVM memory pressure of master nodes are too high should the statistics be applied in seconds"
   type        = number
   default     = 900
@@ -244,7 +250,7 @@ variable "master_jvm_memory_pressure_threshold" {
 ########################################
 # Evaluation periods for alarms
 ########################################
-variable "monitor_cluster_status_is_red_periods" {
+variable "alarm_cluster_status_is_red_periods" {
   description = "The number of periods to alert that cluster status is red.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
@@ -262,55 +268,55 @@ variable "alarm_free_storage_space_too_low_periods" {
   default     = 1
 }
 
-variable "monitor_free_storage_space_total_too_low_periods" {
+variable "alarm_free_storage_space_total_too_low_periods" {
   description = "The number of periods to alert that total cluster free storage space is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
 }
 
-variable "monitor_cluster_index_writes_blocked_periods" {
+variable "alarm_cluster_index_writes_blocked_periods" {
   description = "The number of periods to alert that cluster index writes are blocked.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
 }
 
-variable "monitor_min_available_nodes_periods" {
+variable "alarm_min_available_nodes_periods" {
   description = "The number of periods to alert that minimum number of available nodes dropped below a threshold.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
 }
 
-variable "monitor_automated_snapshot_failure_periods" {
+variable "alarm_automated_snapshot_failure_periods" {
   description = "The number of periods to alert that automatic snapshots failed.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
 }
 
-variable "monitor_cpu_utilization_too_high_periods" {
+variable "alarm_cpu_utilization_too_high_periods" {
   description = "The number of periods to alert that CPU usage is too high.  Default: 3, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 3
 }
 
-variable "monitor_jvm_memory_pressure_too_high_periods" {
+variable "alarm_jvm_memory_pressure_too_high_periods" {
   description = "The number of periods which it must be in the alarmed state to alert"
   type        = number
   default     = 1
 }
 
-variable "monitor_master_cpu_utilization_too_high_periods" {
+variable "alarm_master_cpu_utilization_too_high_periods" {
   description = "The number of periods to alert that masters CPU usage is too high.  Default: 3, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 3
 }
 
-variable "monitor_master_jvm_memory_pressure_too_high_periods" {
+variable "alarm_master_jvm_memory_pressure_too_high_periods" {
   description = "The number of periods which it must be in the alarmed state to alert"
   type        = number
   default     = 1
 }
 
-variable "monitor_kms_periods" {
+variable "alarm_kms_periods" {
   description = "The number of periods to alert that kms has failed.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1

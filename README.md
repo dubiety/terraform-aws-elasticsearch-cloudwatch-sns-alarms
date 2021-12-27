@@ -84,18 +84,18 @@ module "es_alarms" {
 |-----------------------------------------------|-------------|:----:|:-------:|:--------:|
 | `domain_name`                                 | The Elasticserach domain name you want to monitor. | string | - | yes |
 | `cluster_type`                                | The type of cluster, single or multi-node | string | `"single"` | no |
-| `monitor_cluster_status_is_red_periods`      | The number of periods to alert that cluster status is red, raise this to be less noisy | number | `1` | no |
+| `cluster_status_is_red_periods`      | The number of periods to alert that cluster status is red, raise this to be less noisy | number | `1` | no |
 | `alarm_cluster_status_is_yellow_periods`      | The number of periods before triggering the cluster status is yellow, raise this to be less noisy | number | `1` | no |
 | `alarm_free_storage_space_too_low_periods`    | The number of periods before triggering the disk space is low, raise this to be less noisy | number | `1` | no |
-| `monitor_free_storage_space_total_too_low_periods`    | The number of periods before triggering the total disk space is low, raise this to be less noisy |  number | `1` | no |
-| `monitor_cluster_index_writes_blocked_periods`    | The number of periods to alert that cluster index writes are blocked, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_min_available_nodes_periods`    | The number of periods to alert that minimum number of available nodes dropped below a threshold, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_automated_snapshot_failure_periods`    | The number of periods to alert that automatic snapshots failed, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_cpu_utilization_too_high_periods`    | The number of periods to alert that CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
-| `monitor_jvm_memory_pressure_too_high_periods`    | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_master_cpu_utilization_too_high_periods`    | The number of periods to alert that masters CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
-| `monitor_master_jvm_memory_pressure_too_high_periods`    | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_kms_periods`    | The number of periods to alert that kms has failed, raise this if desired to make less noisy | number | `1` | no |
+| `free_storage_space_total_too_low_periods`    | The number of periods before triggering the total disk space is low, raise this to be less noisy |  number | `1` | no |
+| `cluster_index_writes_blocked_periods`    | The number of periods to alert that cluster index writes are blocked, raise this if desired to make less noisy | number | `1` | no |
+| `min_available_nodes_periods`    | The number of periods to alert that minimum number of available nodes dropped below a threshold, raise this if desired to make less noisy | number | `1` | no |
+| `automated_snapshot_failure_periods`    | The number of periods to alert that automatic snapshots failed, raise this if desired to make less noisy | number | `1` | no |
+| `cpu_utilization_too_high_periods`    | The number of periods to alert that CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
+| `jvm_memory_pressure_too_high_periods`    | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
+| `master_cpu_utilization_too_high_periods`    | The number of periods to alert that masters CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
+| `master_jvm_memory_pressure_too_high_periods`    | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
+| `kms_periods`    | The number of periods to alert that kms has failed, raise this if desired to make less noisy | number | `1` | no |
 | `alarm_name_postfix`                          | Alarm name postfix | string | `""` | no |
 | `alarm_name_prefix`                           | Alarm name prefix | string | `""` | no |
 | `cpu_utilization_threshold`                   | The maximum percentage of CPU utilization | string | `80` | no |
@@ -106,6 +106,7 @@ module "es_alarms" {
 | `min_available_nodes`                         | The minimum available (reachable) nodes to have, set to non-zero to enable alarm | string | `0` | no |
 | `monitor_automated_snapshot_failure`          | Enable monitoring of automated snapshot failure | bool | `true` | no |
 | `monitor_cluster_index_writes_blocked`        | Enable monitoring of cluster index writes being blocked | bool | `true` | no |
+| `monitor_min_available_nodes`                 | Enable monitoring of minimum available nodes | bool | `true` | no |
 | `monitor_cluster_status_is_red`               | Enable monitoring of cluster status is in red | bool | `true` | no |
 | `monitor_cluster_status_is_yellow`            | Enable monitoring of cluster status is in yellow | bool | `true` | no |
 | `monitor_cpu_utilization_too_high`            | Enable monitoring of CPU utilization is too high | bool | `true` | no |
