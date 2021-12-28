@@ -18,7 +18,8 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 |------------|---------------------------|----------|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
 | Sharding   | ClusterStatus.red         | `>=`     | 1         | At least one primary shard and its replicas are not allocated to a node                                                                |
 | Sharding   | ClusterStatus.yellow      | `>=`     | 1         | At least one replica shard is not allocated to a node                                                                                  |
-| Storage    | FreeStorageSpace          | `<=`     | 20480 MB  | A node in your cluster is down to low storage space.                                                                                   |
+| Storage    | FreeStorageSpace          | `<=`     | 20480 MB  | A node in your cluster is down to low storage space.  Note, this alarm uses the aggregate `Minimum` which means this alarm triggers per-node in your cluster.  This logic is based-on the [AWS Recommended Alarms](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cloudwatch-alarms.html).  It does not however alarm based on an aggregate of free space remaining.  |
+| Storage    | FreeStorageSpaceTotal     | `<=`     | 20480 MB  | The overall disk space free is low.  This alarm uses `Sum` across all your nodes, this can be useful on multi-node clusters.  Disabled by default, to enable this you must set `monitor_free_storage_space_total_too_low` to true, and `free_storage_space_total_threshold`.  Recommended to set the threshold to the number of nodes in your cluster multiplied by the free_storage_space_threshold  |
 | Storage    | ClusterIndexWritesBlocked | `>=`     | 1         | Your cluster is blocking write requests.                                                                                               |
 | Node Count | Nodes                     | `<`      | `x`       | This alarm indicates that at least one node in your cluster has been unreachable for one day                                           |
 | Snapshot   | AutomatedSnapshotFailure  | `>=`     | 1         | An automated snapshot failed. This failure is often the result of a red cluster health status.                                         |
@@ -79,55 +80,62 @@ module "es_alarms" {
 
 ## Inputs
 
-| Name                                          | Description | Type | Default | Required |
-|-----------------------------------------------|-------------|:----:|:-------:|:--------:|
-| `domain_name`                                 | The Elasticserach domain name you want to monitor. | string | - | yes |
-| `cluster_type`                                | The type of cluster, single or multi-node | string | `"single"` | no |
-| `monitor_cluster_status_is_red_periods`      | The number of periods to alert that cluster status is red, raise this to be less noisy | number | `1` | no |
-| `alarm_cluster_status_is_yellow_periods`      | The number of periods before triggering the cluster status is yellow, raise this to be less noisy | number | `1` | no |
-| `alarm_free_storage_space_too_low_periods`    | The number of periods before triggering the disk space is low, raise this to be less noisy | number | `1` | no |
-| `monitor_cluster_index_writes_blocked_periods`    | The number of periods to alert that cluster index writes are blocked, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_min_available_nodes_periods`    | The number of periods to alert that minimum number of available nodes dropped below a threshold, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_automated_snapshot_failure_periods`    | The number of periods to alert that automatic snapshots failed, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_cpu_utilization_too_high_periods`    | The number of periods to alert that CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
-| `monitor_jvm_memory_pressure_too_high_periods`    | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_master_cpu_utilization_too_high_periods`    | The number of periods to alert that masters CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
-| `monitor_master_jvm_memory_pressure_too_high_periods`    | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
-| `monitor_kms_periods`    | The number of periods to alert that kms has failed, raise this if desired to make less noisy | number | `1` | no |
-| `alarm_name_postfix`                          | Alarm name postfix | string | `""` | no |
-| `alarm_name_prefix`                           | Alarm name prefix | string | `""` | no |
-| `cpu_utilization_threshold`                   | The maximum percentage of CPU utilization | string | `80` | no |
-| `free_storage_space_threshold`                | The minimum amount of available storage space in MiB. | string | `20480` | no |
-| `jvm_memory_pressure_threshold`               | The maximum percentage of the Java heap used for all data nodes in the cluster | string | `80` | no |
-| `master_cpu_utilization_threshold`            | The maximum percentage of CPU utilization of master nodes | string | `""` | no |
-| `master_jvm_memory_pressure_threshold`        | The maximum percentage of the Java heap used for master nodes in the cluster | string | `""` | no |
-| `min_available_nodes`                         | The minimum available (reachable) nodes to have, set to non-zero to enable alarm | string | `0` | no |
-| `monitor_automated_snapshot_failure`          | Enable monitoring of automated snapshot failure | bool | `true` | no |
-| `monitor_cluster_index_writes_blocked`        | Enable monitoring of cluster index writes being blocked | bool | `true` | no |
-| `monitor_cluster_status_is_red`               | Enable monitoring of cluster status is in red | bool | `true` | no |
-| `monitor_cluster_status_is_yellow`            | Enable monitoring of cluster status is in yellow | bool | `true` | no |
-| `monitor_cpu_utilization_too_high`            | Enable monitoring of CPU utilization is too high | bool | `true` | no |
-| `monitor_free_storage_space_too_low`          | Enable monitoring of cluster average free storage is to low | bool | `true` | no |
-| `monitor_jvm_memory_pressure_too_high`        | Enable monitoring of JVM memory pressure is too high | bool | `true` | no |
-| `monitor_kms`                                 | Enable monitoring of KMS-related metrics, enable if using KMS | bool | `false` | no |
-| `monitor_master_cpu_utilization_too_high`     | Enable monitoring of CPU utilization of master nodes are too high. Only enable this when dedicated master is enabled | bool | `false` | no |
-| `monitor_master_jvm_memory_pressure_too_high` | Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled | bool | `false` | no |
-| `monitor_min_available_nodes_period`          | The period of the minimum available nodes should the statistics be applied in seconds | string | `86400` | no |
-| `monitor_automated_snapshot_failure_period`   | The period of the automated snapshot failure should the statistics be applied in seconds | string | `60` | no |
-| `monitor_cluster_index_writes_blocked_period` | The period of the cluster index writes being blocked should the statistics be applied in seconds | string | `300` | no |
-| `monitor_cluster_status_is_red_period`        | The period of the cluster status is in red should the statistics be applied in seconds | string | `60` | no |
-| `monitor_cluster_status_is_yellow_period`     | The period of the cluster status is in yellow should the statistics be applied in seconds | string | `60` | no |
-| `monitor_cpu_utilization_too_high_period`     | The period of the CPU utilization is too high should the statistics be applied in seconds | string | `900` | no |
-| `monitor_free_storage_space_too_low_period`   | The period of the cluster average free storage is too low should the statistics be applied in seconds | string | `60` | no |
-| `monitor_jvm_memory_pressure_too_high_period` | The period of the JVM memory pressure is too high should the statistics be applied in seconds | string | `900` | no |
-| `monitor_kms_period`                          | The period of the KMS-related metrics should the statistics be applied in seconds | string | `60` | no |
-| `monitor_master_cpu_utilization_too_high_period`     | The period of the CPU utilization of master nodes are too high should the statistics be applied in seconds | string | `900` | no |
-| `monitor_master_jvm_memory_pressure_too_high_period` | The period of the JVM memory pressure of master nodes are too high should the statistics be applied in seconds | string | `900` | no |
-| `create_sns_topic`                            | Will create an SNS topic, if you set this to false you MUST set `sns_topic` to a FULL ARN | bool | `true` | no |
-| `sns_topic`                                   | SNS topic you want to specify. If leave empty, it will use a prefix and a timestamp appended.  If `create_sns_topic` is set to false, this MUST be a FULL ARN | string | `""` | no |
-| `sns_topic_postfix`                           | SNS topic postfix | string | `""` | no |
-| `sns_topic_prefix`                            | SNS topic prefix | string | `""` | no |
-| `tags`                                        | Tags to associate with all created resources | map | `{}` | no |
+| Name                                                 | Description | Type | Default | Required |
+|------------------------------------------------------|-------------|:----:|:-------:|:--------:|
+| `domain_name`                                        | The Elasticserach domain name you want to monitor. | string | - | yes |
+| `cluster_type`                                       | The type of cluster, single or multi-node | string | `"single"` | no |
+| `alarm_name_postfix`                                 | Alarm name postfix | string | `""` | no |
+| `alarm_name_prefix`                                  | Alarm name prefix | string | `""` | no |
+| `create_sns_topic`                                   | Will create an SNS topic, if you set this to false you MUST set `sns_topic` to a FULL ARN | bool | `true` | no |
+| `sns_topic`                                          | SNS topic you want to specify. If leave empty, it will use a prefix and a timestamp appended.  If `create_sns_topic` is set to false, this MUST be a FULL ARN | string | `""` | no |
+| `sns_topic_postfix`                                  | SNS topic postfix | string | `""` | no |
+| `sns_topic_prefix`                                   | SNS topic prefix | string | `""` | no |
+| `tags`                                               | Tags to associate with all created resources | map | `{}` | no |
+| `cpu_utilization_threshold`                          | The maximum percentage of CPU utilization | string | `80` | no |
+| `free_storage_space_threshold`                       | The minimum amount of available storage space in MiB. | string | `20480` | no |
+| `jvm_memory_pressure_threshold`                      | The maximum percentage of the Java heap used for all data nodes in the cluster | string | `80` | no |
+| `master_cpu_utilization_threshold`                   | The maximum percentage of CPU utilization of master nodes | string | `""` | no |
+| `master_jvm_memory_pressure_threshold`               | The maximum percentage of the Java heap used for master nodes in the cluster | string | `""` | no |
+| `min_available_nodes`                                | The minimum available (reachable) nodes to have, set to non-zero to enable alarm | string | `0` | no |
+
+| `monitor_automated_snapshot_failure`                 | Enable monitoring of automated snapshot failure | bool | `true` | no |
+| `monitor_cluster_status_is_red`                      | Enable monitoring of cluster status is in red | bool | `true` | no |
+| `monitor_cluster_status_is_yellow`                   | Enable monitoring of cluster status is in yellow | bool | `true` | no |
+| `monitor_cluster_index_writes_blocked`               | Enable monitoring of cluster index writes being blocked | bool | `true` | no |
+| `monitor_cpu_utilization_too_high`                   | Enable monitoring of CPU utilization is too high | bool | `true` | no |
+| `monitor_free_storage_space_too_low`                 | Enable monitoring of minimum per-node free storage is too low | bool | `true` | no |
+| `monitor_free_storage_space_total_too_low`           | Enable monitoring of cluster total free storage is too low | bool | `false` | no |
+| `monitor_jvm_memory_pressure_too_high`               | Enable monitoring of JVM memory pressure is too high | bool | `true` | no |
+| `monitor_kms`                                        | Enable monitoring of KMS-related metrics, enable if using KMS | bool | `false` | no |
+| `monitor_master_cpu_utilization_too_high`            | Enable monitoring of CPU utilization of master nodes are too high. Only enable this when dedicated master is enabled | bool | `false` | no |
+| `monitor_master_jvm_memory_pressure_too_high`        | Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled | bool | `false` | no |
+| `monitor_min_available_nodes`                        | Enable monitoring of minimum available nodes | bool | `true` | no |
+
+| `alarm_automated_snapshot_failure_periods`           | The number of periods to alert that automatic snapshots failed, raise this if desired to make less noisy | number | `1` | no |
+| `alarm_cluster_status_is_red_periods`                | The number of periods to alert that cluster status is red, raise this to be less noisy | number | `1` | no |
+| `alarm_cluster_status_is_yellow_periods`             | The number of periods before triggering the cluster status is yellow, raise this to be less noisy | number | `1` | no |
+| `alarm_cluster_index_writes_blocked_periods`         | The number of periods to alert that cluster index writes are blocked, raise this if desired to make less noisy | number | `1` | no |
+| `alarm_cpu_utilization_too_high_periods`             | The number of periods to alert that CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
+| `alarm_free_storage_space_too_low_periods`           | The number of periods before triggering the disk space is low, raise this to be less noisy | number | `1` | no |
+| `alarm_free_storage_space_total_too_low_periods`     | The number of periods before triggering the total disk space is low, raise this to be less noisy |  number | `1` | no |
+| `alarm_jvm_memory_pressure_too_high_periods`         | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
+| `alarm_kms_periods`                                  | The number of periods to alert that kms has failed, raise this if desired to make less noisy | number | `1` | no |
+| `alarm_master_cpu_utilization_too_high_periods`      | The number of periods to alert that masters CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
+| `alarm_master_jvm_memory_pressure_too_high_periods`  | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
+| `alarm_min_available_nodes_periods`                  | The number of periods to alert that minimum number of available nodes dropped below a threshold, raise this if desired to make less noisy | number | `1` | no |
+
+| `alarm_min_available_nodes_period`                   | The period of the minimum available nodes should the statistics be applied in seconds | string | `86400` | no |
+| `alarm_automated_snapshot_failure_period`            | The period of the automated snapshot failure should the statistics be applied in seconds | string | `60` | no |
+| `alarm_cluster_index_writes_blocked_period`          | The period of the cluster index writes being blocked should the statistics be applied in seconds | string | `300` | no |
+| `alarm_cluster_status_is_red_period`                 | The period of the cluster status is in red should the statistics be applied in seconds | string | `60` | no |
+| `alarm_cluster_status_is_yellow_period`              | The period of the cluster status is in yellow should the statistics be applied in seconds | string | `60` | no |
+| `alarm_cpu_utilization_too_high_period`              | The period of the CPU utilization is too high should the statistics be applied in seconds | string | `900` | no |
+| `alarm_free_storage_space_too_low_period`            | The period of the per-node minimum free storage is too low should the statistics be applied in seconds | string | `60` | no |
+| `alarm_free_storage_space_total_too_low_period`      | The period of the cluster total free storage is too low should the statistics be applied in seconds | string | `60` | no |
+| `alarm_jvm_memory_pressure_too_high_period`          | The period of the JVM memory pressure is too high should the statistics be applied in seconds | string | `900` | no |
+| `alarm_kms_period`                                   | The period of the KMS-related metrics should the statistics be applied in seconds | string | `60` | no |
+| `alarm_master_cpu_utilization_too_high_period`       | The period of the CPU utilization of master nodes are too high should the statistics be applied in seconds | string | `900` | no |
+| `alarm_master_jvm_memory_pressure_too_high_period`   | The period of the JVM memory pressure of master nodes are too high should the statistics be applied in seconds | string | `900` | no |
 
 ## Outputs
 
