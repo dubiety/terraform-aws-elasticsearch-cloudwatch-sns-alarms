@@ -13,7 +13,7 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 ## Metrics and Alarms
 
-| area       | metric                    | operator | threshold | rationale                                                                                                                              |
+| Area       | Metric                    | Operator | Threshold | Rationale                                                                                                                              |
 |------------|---------------------------|----------|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
 | Sharding   | ClusterStatus.red         | `>=`     | 1         | At least one primary shard and its replicas are not allocated to a node                                                                |
 | Sharding   | ClusterStatus.yellow      | `>=`     | 1         | At least one replica shard is not allocated to a node                                                                                  |
@@ -96,7 +96,6 @@ module "es_alarms" {
 | `master_cpu_utilization_threshold`                   | The maximum percentage of CPU utilization of master nodes | string | `""` | no |
 | `master_jvm_memory_pressure_threshold`               | The maximum percentage of the Java heap used for master nodes in the cluster | string | `""` | no |
 | `min_available_nodes`                                | The minimum available (reachable) nodes to have, set to non-zero to enable alarm | string | `0` | no |
-
 | `monitor_automated_snapshot_failure`                 | Enable monitoring of automated snapshot failure | bool | `true` | no |
 | `monitor_cluster_status_is_red`                      | Enable monitoring of cluster status is in red | bool | `true` | no |
 | `monitor_cluster_status_is_yellow`                   | Enable monitoring of cluster status is in yellow | bool | `true` | no |
@@ -109,7 +108,6 @@ module "es_alarms" {
 | `monitor_master_cpu_utilization_too_high`            | Enable monitoring of CPU utilization of master nodes are too high. Only enable this when dedicated master is enabled | bool | `false` | no |
 | `monitor_master_jvm_memory_pressure_too_high`        | Enable monitoring of JVM memory pressure of master nodes are too high. Only enable this wwhen dedicated master is enabled | bool | `false` | no |
 | `monitor_min_available_nodes`                        | Enable monitoring of minimum available nodes | bool | `true` | no |
-
 | `alarm_automated_snapshot_failure_periods`           | The number of periods to alert that automatic snapshots failed, raise this if desired to make less noisy | number | `1` | no |
 | `alarm_cluster_status_is_red_periods`                | The number of periods to alert that cluster status is red, raise this to be less noisy | number | `1` | no |
 | `alarm_cluster_status_is_yellow_periods`             | The number of periods before triggering the cluster status is yellow, raise this to be less noisy | number | `1` | no |
@@ -122,7 +120,6 @@ module "es_alarms" {
 | `alarm_master_cpu_utilization_too_high_periods`      | The number of periods to alert that masters CPU usage is too high, raise this if desired to make less noisy | number | `3` | no |
 | `alarm_master_jvm_memory_pressure_too_high_periods`  | The number of periods which it must be in the alarmed state to alert, raise this if desired to make less noisy | number | `1` | no |
 | `alarm_min_available_nodes_periods`                  | The number of periods to alert that minimum number of available nodes dropped below a threshold, raise this if desired to make less noisy | number | `1` | no |
-
 | `alarm_min_available_nodes_period`                   | The period of the minimum available nodes should the statistics be applied in seconds | string | `86400` | no |
 | `alarm_automated_snapshot_failure_period`            | The period of the automated snapshot failure should the statistics be applied in seconds | string | `60` | no |
 | `alarm_cluster_index_writes_blocked_period`          | The period of the cluster index writes being blocked should the statistics be applied in seconds | string | `300` | no |
@@ -138,10 +135,10 @@ module "es_alarms" {
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
+|Name              | Description              |
+|------------------|--------------------------|
 | `sns_topic_arn`  | The ARN of the SNS topic |
-| `sns_topic_name` | The SNS topic name |
+| `sns_topic_name` | The SNS topic name       |
 
 ## Share the Love
 
