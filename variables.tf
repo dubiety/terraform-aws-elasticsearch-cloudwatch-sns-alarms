@@ -124,6 +124,11 @@ variable "monitor_master_jvm_memory_pressure_too_high" {
   type        = bool
   default     = false
 }
+variable "monitor_opensearch_index_read_latency" {
+description = "Enable monitoring of Opensearch read latency of data nodes."
+  type        = bool
+  default     = false
+}
 
 ########################################
 # Evaluation period time length (in seconds) for alarms
@@ -200,6 +205,11 @@ variable "alarm_master_jvm_memory_pressure_too_high_period" {
   default     = 900
 }
 
+variable "alarm_opensearch_index_read_latency_period" {
+  description = "The period of opensearch data node read latency should the statics be applied in seconds" 
+  type        = number
+  default     = 60
+}
 
 ########################################
 # Alarm thresholds
@@ -246,7 +256,11 @@ variable "master_jvm_memory_pressure_threshold" {
   default     = 80 # default same as `jvm_memory_pressure_threshold` in Percentage
 }
 
-
+variable "alarm_opensearch_index_read_latency_threshhold" {
+  description = "The maximum period it takes for opensearch data node indexes to return query result"
+  type        = number
+  default     = 900
+}
 ########################################
 # Evaluation periods for alarms
 ########################################
@@ -318,6 +332,12 @@ variable "alarm_master_jvm_memory_pressure_too_high_periods" {
 
 variable "alarm_kms_periods" {
   description = "The number of periods to alert that kms has failed.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
+  type        = number
+  default     = 1
+}
+
+variable "alarm_opensearch_index_read_latency_periods" {
+  description = "The number of periods which it must be in the alarmed state to alert"
   type        = number
   default     = 1
 }

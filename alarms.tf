@@ -307,3 +307,25 @@ resource "aws_cloudwatch_metric_alarm" "kms_key_inaccessible" {
     ClientId   = data.aws_caller_identity.default.account_id
   }
 }
+resource "aws_cloudwatch_metric_alarm" "opensearch_index_read_latency" {
+  count               = var.monitor_opensearch_index_read_latency ? 1 : 0
+  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-WriteLatency${var.alarm_name_postfix}"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = var.alarm_opensearch_index_read_latency_periods
+  datapoints_to_alarm = var.alarm_opensearch_index_read_latency_periods
+  metric_name         = "IndexingLatency"
+  namespace           = "AWS/ES"
+  period              = var.alarm_opensearch_index_read_latency_period
+  statistic           = "Maximum"
+  threshold           = var.alarm_opensearch_index_read_latency_threshhold
+  alarm_description   = "Elasticsearch index read latency threshold exceeded over last ${floor(var.alarm_opensearch_index_read_latency_periods * var.alarm_opensearch_index_read_latency_period / 60)} minute(s)"
+  alarm_actions       = [local.aws_sns_topic_arn]
+  ok_actions          = [local.aws_sns_topic_arn]
+  treat_missing_data  = "ignore"
+  tags                = var.tags
+
+  dimensions = {
+    DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.default.account_id
+  }
+}
