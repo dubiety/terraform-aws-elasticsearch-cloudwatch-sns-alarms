@@ -86,7 +86,7 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_total_too_low" {
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = var.alarm_free_storage_space_total_too_low_periods
   datapoints_to_alarm = var.alarm_free_storage_space_total_too_low_periods
-  metric_name         = "FreeStorageSpaceTotal"
+  metric_name         = "FreeStorageSpace"
   namespace           = "AWS/ES"
   period              = var.alarm_free_storage_space_total_too_low_period
   statistic           = "Sum"
@@ -102,7 +102,6 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_space_total_too_low" {
     ClientId   = data.aws_caller_identity.default.account_id
   }
 }
-
 
 
 resource "aws_cloudwatch_metric_alarm" "cluster_index_writes_blocked" {
