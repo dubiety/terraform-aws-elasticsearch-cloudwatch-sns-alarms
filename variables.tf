@@ -234,7 +234,7 @@ variable "available_shards_threshold" {
   default     = 5400 ## 90% of 6000 shards for a 6 data node cluster
 }
 
-variable "MaxAvailableShards" {
+variable "max_available_shards" {
   description = "The Maximumn available shards per cluster, set to non-zero to enable"
   type        = number
   default     = 0
