@@ -125,6 +125,12 @@ variable "monitor_master_jvm_memory_pressure_too_high" {
   default     = false
 }
 
+variable "monitor_available_shards_too_low" {
+  description = "Enable monitoring per-cluster available shards is too low"
+  type        = bool
+  default     = true
+}
+
 ########################################
 # Evaluation period time length (in seconds) for alarms
 ########################################
@@ -200,6 +206,12 @@ variable "alarm_master_jvm_memory_pressure_too_high_period" {
   default     = 900
 }
 
+variable "alarm_available_shards_too_low_period" {
+  description = "The period of the available shards are too low should the statistics be applied in seconds"
+  type        = number
+  default     = 900
+}
+
 
 ########################################
 # Alarm thresholds
@@ -214,6 +226,18 @@ variable "free_storage_space_total_threshold" {
   description = "The minimum amount of available storage space in megabytes aggregated across your cluster (for multi-node).  This is an aggregate, typically use (free_storage_space_threshold * min_available_nodes)"
   type        = number
   default     = 20480 ## 20 Gigabyte in MegaByte
+}
+
+variable "available_shards_threshold" {
+  description = "The minimum amount of available shards.  This is per-cluster."
+  type        = number
+  default     = 5400 ## 90% of 6000 shards for a 6 data node cluster
+}
+
+variable "MaxAvailableShards" {
+  description = "The Maximumn available shards per cluster, set to non-zero to enable"
+  type        = number
+  default     = 0
 }
 
 variable "min_available_nodes" {
@@ -318,6 +342,12 @@ variable "alarm_master_jvm_memory_pressure_too_high_periods" {
 
 variable "alarm_kms_periods" {
   description = "The number of periods to alert that kms has failed.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
+  type        = number
+  default     = 1
+}
+
+variable "alarm_available_shards_too_low_periods" {
+  description = "The number of periods to alert that available shard count is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
 }

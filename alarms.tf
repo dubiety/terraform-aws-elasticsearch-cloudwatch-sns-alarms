@@ -7,6 +7,8 @@ locals {
     JVMMemoryPressureThreshold       = floor(min(max(var.jvm_memory_pressure_threshold, 0), 100))
     MasterCPUUtilizationThreshold    = floor(min(max(coalesce(var.master_cpu_utilization_threshold, var.cpu_utilization_threshold), 0), 100))
     MasterJVMMemoryPressureThreshold = floor(min(max(coalesce(var.master_jvm_memory_pressure_threshold, var.jvm_memory_pressure_threshold), 0), 100))
+    MaxAvailableShards               = floor(max(var.max_available_shards, 0))
+    AvailableShardsThreshold         = floor(max(var.available_shards_threshold, 0))
   }
 }
 
@@ -296,6 +298,30 @@ resource "aws_cloudwatch_metric_alarm" "kms_key_inaccessible" {
   statistic           = "Maximum"
   threshold           = "1"
   alarm_description   = "Elasticsearch KMS Key Inaccessible failed over last ${floor(var.alarm_kms_periods * var.alarm_kms_period / 60)} minute(s)"
+  alarm_actions       = [local.aws_sns_topic_arn]
+  ok_actions          = [local.aws_sns_topic_arn]
+  treat_missing_data  = "ignore"
+  tags                = var.tags
+
+  dimensions = {
+    DomainName = var.domain_name
+    ClientId   = data.aws_caller_identity.default.account_id
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "available_shards_too_low" {
+  # If the user specified how many nodes, and they want to create this alert (disabled by default)
+  count               = var.monitor_available_shards_too_low ? var.MaxAvailableShards > 0 ? 1 : 0 : 0
+  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-AvailableShardsTooLow${var.alarm_name_postfix}"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods  = var.alarm_available_shards_too_low_periods
+  datapoints_to_alarm = var.alarm_available_shards_too_low_periods
+  metric_name         = "Shards.active"
+  namespace           = "AWS/ES"
+  period              = var.alarm_available_shards_too_low_period
+  statistic           = "Average"
+  threshold           = local.thresholds["AvailableShardsThreshold"]
+  alarm_description   = "Minimum number of available shards under ${local.thresholds["AvailableShardsThreshold"]} shards for the last ${floor(var.alarm_available_shards_too_low_periods * var.alarm_available_shards_too_low_period / 60)} minute(s)"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
