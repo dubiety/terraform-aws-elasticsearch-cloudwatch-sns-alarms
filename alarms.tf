@@ -311,7 +311,7 @@ resource "aws_cloudwatch_metric_alarm" "kms_key_inaccessible" {
 
 resource "aws_cloudwatch_metric_alarm" "available_shards_too_low" {
   # If the user specified how many nodes, and they want to create this alert (disabled by default)
-  count               = var.monitor_available_shards_too_low ? var.MaxAvailableShards > 0 ? 1 : 0 : 0
+  count               = var.monitor_available_shards_too_low ? var.max_available_shards > 0 ? 1 : 0 : 0
   alarm_name          = "${var.alarm_name_prefix}ElasticSearch-AvailableShardsTooLow${var.alarm_name_postfix}"
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = var.alarm_available_shards_too_low_periods
