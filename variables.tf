@@ -125,7 +125,7 @@ variable "monitor_master_jvm_memory_pressure_too_high" {
   default     = false
 }
 
-variable "monitor_available_shards_too_low" {
+variable "monitor_allocated_shards_too_high" {
   description = "Enable monitoring per-cluster available shards is too low"
   type        = bool
   default     = true
@@ -206,7 +206,7 @@ variable "alarm_master_jvm_memory_pressure_too_high_period" {
   default     = 900
 }
 
-variable "alarm_available_shards_too_low_period" {
+variable "alarm_allocated_shards_too_high_period" {
   description = "The period of the available shards are too low should the statistics be applied in seconds"
   type        = number
   default     = 900
@@ -346,7 +346,7 @@ variable "alarm_kms_periods" {
   default     = 1
 }
 
-variable "alarm_available_shards_too_low_periods" {
+variable "alarm_allocated_shards_too_high_periods" {
   description = "The number of periods to alert that available shard count is too low.  Default: 1, raise this to be less noisy, as this can occur often for only 1 period"
   type        = number
   default     = 1
