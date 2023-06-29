@@ -309,19 +309,19 @@ resource "aws_cloudwatch_metric_alarm" "kms_key_inaccessible" {
   }
 }
 
-resource "aws_cloudwatch_metric_alarm" "available_shards_too_low" {
+resource "aws_cloudwatch_metric_alarm" "allocated_shards_too_high" {
   # If the user specified how many nodes, and they want to create this alert (disabled by default)
-  count               = var.monitor_available_shards_too_low ? var.max_available_shards > 0 ? 1 : 0 : 0
-  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-AvailableShardsTooLow${var.alarm_name_postfix}"
-  comparison_operator = "LessThanOrEqualToThreshold"
-  evaluation_periods  = var.alarm_available_shards_too_low_periods
-  datapoints_to_alarm = var.alarm_available_shards_too_low_periods
+  count               = var.monitor_allocated_shards_too_high ? var.max_available_shards > 0 ? 1 : 0 : 0
+  alarm_name          = "${var.alarm_name_prefix}ElasticSearch-AllocatedShardsTooHigh${var.alarm_name_postfix}"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = var.alarm_allocated_shards_too_high_periods
+  datapoints_to_alarm = var.alarm_allocated_shards_too_high_periods
   metric_name         = "Shards.active"
   namespace           = "AWS/ES"
-  period              = var.alarm_available_shards_too_low_period
+  period              = var.alarm_allocated_shards_too_high_period
   statistic           = "Average"
   threshold           = local.thresholds["AvailableShardsThreshold"]
-  alarm_description   = "Minimum number of available shards under ${local.thresholds["AvailableShardsThreshold"]} shards for the last ${floor(var.alarm_available_shards_too_low_periods * var.alarm_available_shards_too_low_period / 60)} minute(s)"
+  alarm_description   = "Maximum number of allocated shards over ${local.thresholds["AvailableShardsThreshold"]} shards for the last ${floor(var.alarm_allocated_shards_too_high_periods * var.alarm_allocated_shards_too_high_period / 60)} minute(s)"
   alarm_actions       = [local.aws_sns_topic_arn]
   ok_actions          = [local.aws_sns_topic_arn]
   treat_missing_data  = "ignore"
