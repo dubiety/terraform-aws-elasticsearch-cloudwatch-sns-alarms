@@ -1,5 +1,6 @@
 ### For connecting and provisioning
 variable "region" {
+  type    = string
   default = "us-west-2"
 }
 provider "aws" {
@@ -14,11 +15,13 @@ provider "aws" {
 
 # This specifies the disk size of each node in your ES cluster (created elsewhere)
 variable "elasticsearch_disk_size" {
+  type    = number
   default = 20
 }
 
 # This specifies number of nodes in your ES cluster (created elsewhere)
 variable "elasticsearch_instance_count" {
+  type    = number
   default = 2
 }
 

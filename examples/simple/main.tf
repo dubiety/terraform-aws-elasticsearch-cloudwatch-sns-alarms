@@ -1,5 +1,6 @@
 ### For connecting and provisioning
 variable "region" {
+  type    = string
   default = "us-west-2"
 }
 

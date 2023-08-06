@@ -17,14 +17,14 @@ locals {
   aws_sns_topic_arn = coalesce(
     element(
       concat(
-        aws_sns_topic.default_prefix.*.arn,
+        aws_sns_topic.default_prefix[*].arn,
         [""],
       ),
       0,
     ),
     element(
       concat(
-        aws_sns_topic.default.*.arn,
+        aws_sns_topic.default[*].arn,
         [""],
       ),
       0,
